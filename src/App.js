@@ -27,7 +27,7 @@ class App extends Component {
 
         const linkPromises = postList.map(p => {
           const url = p._links['wp:featuredmedia'][0].href;
-          return axios.get(url);
+          return axios.get(url.slice(url.indexOf('.com') + 4));
         });
         return Promise.all([postPromise, Promise.all(linkPromises)]);
       })
