@@ -27,7 +27,7 @@ const ListPost = props => {
     <div className={classes.root}>
       <GridList cellHeight={250} className={classes.gridList}>
         <GridListTile key="title" cols={2} style={{ height: 'auto' }}>
-          <ListSubheader variant="h5">Posts</ListSubheader>
+          <ListSubheader variant="headline">Posts</ListSubheader>
         </GridListTile>
         {posts.map(p => (
           <ListPostItem {...p} key={p.id} />

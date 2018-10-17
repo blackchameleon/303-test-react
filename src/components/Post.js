@@ -50,7 +50,11 @@ class Post extends Component {
           alignItems="center"
           justify="center"
         >
-          <Typography component="h5" variant="headline">
+          <Typography
+            component="h5"
+            variant="headline"
+            style={{ fontWeight: 'bold' }}
+          >
             {post.title.rendered}
           </Typography>
           <Divider />

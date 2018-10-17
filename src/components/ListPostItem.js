@@ -36,7 +36,11 @@ function ListPostItem(props) {
         />
 
         <CardContent>
-          <Typography gutterBottom component="h5">
+          <Typography
+            gutterBottom
+            component="h5"
+            style={{ fontWeight: 'bold' }}
+          >
             {title.rendered}
           </Typography>
           <Typography
