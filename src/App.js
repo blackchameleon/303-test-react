@@ -6,6 +6,7 @@ import axios from 'axios';
 
 import './App.css';
 import ListPost from './components/ListPost';
+import Post from './components/Post';
 
 class App extends Component {
   constructor(props) {
@@ -54,6 +55,10 @@ class App extends Component {
         <Route
           path="/posts"
           render={props => <ListPost {...props} posts={posts} />}
+        />
+        <Route
+          path="/post/:id"
+          render={props => <Post {...props} posts={posts} />}
         />
       </div>
     );
