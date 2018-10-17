@@ -1,25 +1,60 @@
+/* eslint-disable no-underscore-dangle */
+
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { Route } from 'react-router-dom';
+import axios from 'axios';
+
 import './App.css';
+import ListPost from './components/ListPost';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      posts: []
+    };
+  }
+
+  componentDidMount() {
+    const postPromise = axios.get(
+      'https://thewirecutter.com/wp-json/wp/v2/posts'
+    );
+
+    postPromise
+      .then(response => {
+        const postList = response.data;
+
+        const linkPromises = postList.map(p => {
+          const url = p._links['wp:featuredmedia'][0].href;
+          return axios.get(url);
+        });
+        return Promise.all([postPromise, Promise.all(linkPromises)]);
+      })
+      .then(([articles, links]) => {
+        const postList = articles.data;
+
+        postList.forEach((post, index) => {
+          const p = post;
+          p.img = links[index].data.link;
+        });
+
+        this.setState({ posts: postList });
+      });
+  }
+
   render() {
+    const { posts } = this.state;
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <Route
+          exact
+          path="/"
+          render={props => <ListPost {...props} posts={posts} />}
+        />
+        <Route
+          path="/posts"
+          render={props => <ListPost {...props} posts={posts} />}
+        />
       </div>
     );
   }
